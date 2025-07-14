@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: install apt
-        run: apt install libcurl4-openssl-dev libssl-dev
+        run: sduo apt install -y libcurl4-openssl-dev libssl-dev
       - uses: actions/setup-python@v5
         with:
           python-version: '3.10' 
