@@ -1,4 +1,4 @@
-name: CI
+name: mongo-no-avx-8.0.3
 
 on:
   workflow_dispatch:
@@ -11,7 +11,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
@@ -26,13 +25,17 @@ jobs:
         run: |
           python -m pip install 'poetry==1.5.1'
           python -m poetry install --no-root --sync
-        
-      # Runs a single command using the runners shell
-      # - name: Run a one-line script
-      #   run: echo Hello, world!
-
-      # # Runs a set of commands using the runners shell
-      # - name: Run a multi-line script
-      #   run: |
-      #     echo Add other actions to build,
-      #     echo test, and deploy your project.
+      - name: remove avx
+        working-directory: mongo
+        run: |
+          sed -i "s/'+sandybridge'//" SConstruct 
+      - name: build mongo
+        working-directory: mongo
+        run: |
+          python buildscripts/scons.py install-mongod
+      - name: Archive binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ inputs.mongo_version }}-no-avx
+          path: |
+            mongo/build/install/bin
