@@ -1,0 +1,35 @@
+name: test-conda
+
+on:
+  workflow_dispatch:
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: conda-incubator/setup-miniconda@v3
+        with:
+          miniconda-version: "latest"
+          activate-environment: foo
+      - name: Bash
+        run: |
+          conda info
+          conda list
+      - name: PowerShell Core
+        run: |
+          conda info
+          conda list
+      # - name: overwrite sconstruct
+      #   run: |
+      #     cp ${{ inputs.mongo_version }}/SConstruct mongo/SConstruct
+      # - name: build mongo
+      #   working-directory: mongo
+      #   run: |
+      #     export PYTHON_KEYRING_BACKEND=keyring.backends.null.Keyring
+      #     python buildscripts/scons.py install-mongod --disable-warnings-as-errors
+      # - name: Archive binary
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: ${{ inputs.mongo_version }}-no-avx
+      #     path: |
+      #       mongo/build/install/bin
