@@ -18,6 +18,8 @@ jobs:
           activate-environment: foo
       - name: Bash
         run: |
+          conda init
+          conda activate foo
           conda info
           conda list
       # - name: install apt
