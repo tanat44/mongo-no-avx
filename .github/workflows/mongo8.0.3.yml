@@ -28,14 +28,15 @@ jobs:
         run: |
           python -m pip install 'poetry==1.5.1'
           python -m poetry install --no-root --sync
-      - name: overwrite sconstruct
-        run: |
-          cp ${{ inputs.mongo_version }}/SConstruct mongo/SConstruct
-      - name: build mongo
-        working-directory: mongo
-        run: |
-          export PYTHON_KEYRING_BACKEND=keyring.backends.null.Keyring
-          python buildscripts/scons.py install-mongod --disable-warnings-as-errors
+      - run: python -c "import psutil"
+      # - name: overwrite sconstruct
+      #   run: |
+      #     cp ${{ inputs.mongo_version }}/SConstruct mongo/SConstruct
+      # - name: build mongo
+      #   working-directory: mongo
+      #   run: |
+      #     export PYTHON_KEYRING_BACKEND=keyring.backends.null.Keyring
+      #     python buildscripts/scons.py install-mongod --disable-warnings-as-errors
       # - name: Archive binary
       #   uses: actions/upload-artifact@v4
       #   with:
