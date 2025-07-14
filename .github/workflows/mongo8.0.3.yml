@@ -16,8 +16,9 @@ jobs:
         run: sudo apt install -y libcurl4-openssl-dev libssl-dev
       - uses: conda-incubator/setup-miniconda@v3
         with:
-          python-version: "3.10"
           activate-environment: mongo
+          python-version: "3.10"
+      - run: conda activate mongo
       - run: conda info
       - name: clone mongo sourcecode
         run: git clone https://github.com/mongodb/mongo.git
