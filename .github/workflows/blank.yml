@@ -19,10 +19,11 @@ jobs:
       - name: clone mongo sourcecode
         run: git clone https://github.com/mongodb/mongo.git
       - name: check out specific version
+        working-directory: mongo
         run: git checkout tags/${{ inputs.mongo_version }} -b ${{ inputs.mongo_version }}
       - name: install python lib
+        working-directory: mongo
         run: |
-          cd mongo
           python -m pip install 'poetry==1.5.1'
           python -m poetry install --no-root --sync
         
